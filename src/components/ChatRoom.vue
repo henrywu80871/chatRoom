@@ -4,6 +4,7 @@
         <div class="header__name">
             匿名聊天
             <input type="text" v-model="name" style="margin-left:10px;" placeholder="請輸入您的暱稱" />
+            <button @click="randomName()"> Random Name</button>
         </div>
     </div>
     <div id="chatbox" class="chatbox">
@@ -61,6 +62,9 @@ export default {
         }
     },
     methods: {
+        randomName() {
+            this.name = Math.random().toString(36).substr(2);
+        },
         sendMessage(e) {
             if (!this.name) {
                 alert('請輸入姓名');
@@ -83,13 +87,6 @@ export default {
         scrollDown() {
             const roomBody = document.querySelector('#chatbox');
             roomBody.scrollTop = roomBody.scrollHeight;
-        },
-        autogrow(textarea) {
-            let adjustedHeight = textarea.clientHeight;
-            adjustedHeight = Math.max(textarea.scrollHeight,adjustedHeight);
-            if (adjustedHeight > textarea.clientHeight){
-                textarea.style.height= adjustedHeight + 'px';
-            }
         },
         uploadImage(e) {
             const vm = this;
