@@ -42,7 +42,7 @@
             <input id="imageUpload" type="file" accept="image/*" style="display:none;" @change="uploadImage($event)">
             <img src="../assets/picture.png" height="40px" width="40px;" >
         </label>
-        <textarea class="input__message " v-model="message" :rows="rows" @keypress.enter="sendMessage($event)"> </textarea>
+        <textarea class="input__message " v-model="message" rows="1" @keypress.enter="sendMessage($event)"> </textarea>
         <img src="../assets/play-button.png" height="40px" width="40px;" 
             class="input__submit" @click="sendMessage($event)">
     </div>
@@ -57,7 +57,7 @@ export default {
             name:'',
             message:'',
             datas:[],
-            rows:1,
+            loading: false,
         }
     },
     methods: {
@@ -95,6 +95,7 @@ export default {
             const vm = this;
             if (vm.name) {
                 const file = e.target.files[0];
+                e.target.value=''; //use to upload same file
                 const fileName = Math.floor(Date.now() / 1000) + `_${file.name}`;
                 const metadata = {
                     contentType:'image/*'
@@ -116,9 +117,11 @@ export default {
                 })
             }
             else {
-                alert('請輸入姓名')
+                alert('請輸入姓名');
+                e.target.value='';
+                e.preventDefault();
             }
-        }
+        },
     },
     mounted() {
         msgRef.on('value', res => {
@@ -204,14 +207,6 @@ textarea:focus {
     margin-top:10px;
     margin-left:10px;
 }
-/* .chat__message2 {
-    text-align: left;
-    padding:7px;
-    border-radius:15px;
-    word-break: break-all;
-    margin-left:0px;
-    max-width:60%;
-} */
 .chat--self {
     margin-right:10px;
     background-color: #AFF47E;
